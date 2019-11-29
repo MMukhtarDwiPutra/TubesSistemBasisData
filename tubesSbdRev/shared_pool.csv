@@ -1,0 +1,64 @@
+query,qepselect id_admin from admin where id_admin = 100;,"PROJECTION id_admin -- on the fly
+SELECTION id_admin = 100 -- A2
+admin
+Cost : 1 block"select id_admin from admin where id_admin = 200;,"PROJECTION id_admin -- on the fly
+SELECTION id_admin = 200 -- A2
+admin
+Cost : 1 block"
+"select id_admin from admin where id_admin = 300;","PROJECTION id_admin -- on the fly
+SELECTION id_admin = 300 -- A2
+admin
+Cost : 1 block"
+"select id_admin from admin where id_admin = 400;","PROJECTION id_admin -- on the fly
+SELECTION id_admin = 400 -- A2
+admin
+Cost : 1 block"
+"select id_admin,nama_admin from admin join aplikasi using (id_admin);","PROJECTION id_admin,nama_admin -- on the fly
+           JOIN admin.id_admin = aplikasi.id_admin -- Block Nested Loop Join
+admin      aplikasi
+Cost (Worst case): 10941"
+"select id_admin,nama_admin from admin join aplikasi using (id_aplikasi);","PROJECTION id_admin,nama_admin -- on the fly
+           JOIN admin.id_aplikasi = aplikasi.id_aplikasi -- Block Nested Loop Join
+admin      aplikasi
+Cost (Worst case): 10941"
+"select id_aplikasi from aplikasi where id_aplikasi = 3;","PROJECTION id_aplikasi -- on the fly
+SELECTION id_aplikasi = 3 -- A2
+aplikasi
+Cost : 2 block"
+"select rating,gender from aplikasi join admin using (id_admin); 	","PROJECTION rating,gender -- on the fly
+           JOIN aplikasi.id_admin = admin.id_admin -- Block Nested Loop Join
+admin      aplikasi
+Cost (Worst case): 10941"
+"select id_admin from admin where id_admin = 10;","PROJECTION id_admin -- on the fly
+SELECTION id_admin = 10 -- A2
+admin
+Cost : 1 block"
+"select * from admin where id_admin = 5;","nullCost : 1 block"
+"select * from aplikasi where id_aplikasi = 100;","PROJECTION * -- on the fly
+SELECTION id_aplikasi = 100 -- A2
+aplikasi
+Cost : 2 block"
+"select * from aplikasi where id_aplikasi = 30;","PROJECTION id_aplikasi,nama_aplikasi,rating,alamat_website,jenis_aplikasi,id_admin, -- on the fly
+SELECTION id_aplikasi = 30 -- A2
+aplikasi
+Cost : 2 block"
+"select * from aplikasi where nama_aplikasi = ""althap"";","PROJECTION * -- on the fly
+SELECTION nama_aplikasi = ""althap"" -- A1
+aplikasi
+Cost : 1563 block"
+"select * from aplikasi where nama_aplikasi = ""putra"";","PROJECTION id_aplikasi,nama_aplikasi,rating,alamat_website,jenis_aplikasi,id_admin, -- on the fly
+SELECTION nama_aplikasi = ""putra"" -- A1
+aplikasi
+Cost : 1563 block"
+"select * from aplikasi where nama_aplikasi = ""nabil"";","PROJECTION id_aplikasi,nama_aplikasi,rating,alamat_website,jenis_aplikasi,id_admin -- on the fly
+SELECTION nama_aplikasi = ""nabil"" -- A1
+aplikasi
+Cost : 1563 block"
+"select id_admin,nama_aplikasi from admin join aplikasi using (id_admin);","PROJECTION id_admin,nama_aplikasi -- on the fly
+           JOIN admin.id_admin = aplikasi.id_admin -- Block Nested Loop Join
+admin      aplikasi
+Cost (Worst case): 10941"
+"select nama_aplikasi,id_admin,rating from admin join aplikasi using (id_aplikasi);","PROJECTION nama_aplikasi,id_admin,rating -- on the fly
+           JOIN admin.id_aplikasi = aplikasi.id_aplikasi -- Block Nested Loop Join
+admin      aplikasi
+Cost (Worst case): 10941"
